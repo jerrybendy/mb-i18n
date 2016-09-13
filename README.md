@@ -27,6 +27,11 @@ mb-i18n src/lang/*.yml -o dist/i18n/
 
 ## HISTORY
 
+### v0.3.0
+
+* `getLanguageText` 方法的第二个参数改为可选
+* 不再使用默认语言, 所有语言包独立加载
+
 ### v0.2.0
 
 * 添加获取语言文本导出函数

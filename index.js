@@ -44,11 +44,16 @@ window.localStorage.setItem("lang", languageContent.lang);
  * 读取并返回语言文本
  *
  * @param {string} textLabel 语言文本的标识
- * @param {string} defaultText 默认显示的内容
+ * @param {string} defaultText 可选, 默认显示的内容
  * @param {object} paramsMap 参数列表, 对于替换语言中双花括号包围的部分
  * @returns {string}
  */
 function getLanguageText (textLabel, defaultText, paramsMap) {
+
+    if (typeof defaultText === "object" && paramsMap == null) {
+        paramsMap = defaultText;
+        defaultText = "";
+    }
 
     defaultText = defaultText || "";
     paramsMap = paramsMap || {};
