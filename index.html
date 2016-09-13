@@ -1,0 +1,10 @@
+<script>
+(function(win){
+    var searchReg = win.location.search.substr(1).match(/(^|&)lang=([^&]*)(&|$)/i);
+    win.lang = (searchReg && searchReg[2]) || win.localStorage.getItem("lang");
+
+    if (win.lang && win.lang !== "zh") {
+        document.write('<script type="text/javascript" src="./i18n/' + win.lang + '.js"></' + 'script>');
+    }
+})(window);
+</script>

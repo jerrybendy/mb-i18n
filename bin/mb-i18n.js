@@ -57,15 +57,15 @@ files.forEach(function(fileName) {
         // 输出文件
         var targetFilePath = outputPath + langName + ".js";
 
-        fs.writeFile(targetFilePath, targetContent, function(err) {
-            if (err) throw err;
-        });
+        fs.writeFileSync(targetFilePath, targetContent);
 
     } catch (e) {
         console.log(e);
     }
 
 });
+
+process.exit(0);
 
 
 
