@@ -27,6 +27,10 @@ mb-i18n src/lang/*.yml -o dist/i18n/
 
 ## HISTORY
 
+### v0.4.0
+
+* 添加 `getLanguagePartial`
+
 ### v0.3.0
 
 * `getLanguageText` 方法的第二个参数改为可选

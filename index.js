@@ -92,7 +92,6 @@ function getLanguagePartial(prefix) {
 }
 
 
-exports.getLanguagePartial = getLanguagePartial;
-
+getLanguageText.getLanguagePartial = getLanguagePartial;
 
 module.exports = getLanguageText;
