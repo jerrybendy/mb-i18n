@@ -70,4 +70,29 @@ function getLanguageText (textLabel, defaultText, paramsMap) {
     });
 }
 
+
+
+/**
+ * 返回一个函数, 用来包装获取语言包内部的一部分
+ *
+ * @export getLanguagePartial 返回用于获取特定节点下语言文本的函数
+ *
+ *
+ * 例如
+ *      var _ = getLanguagePartial("editor");
+ *      var txtPreview = _("preview");
+ *
+ * @param prefix
+ * @returns {Function}
+ */
+function getLanguagePartial(prefix) {
+    return function (textLabel, defaultText, paramsMap) {
+        return getLanguageText(prefix + "." + textLabel, defaultText, paramsMap);
+    }
+}
+
+
+exports.getLanguagePartial = getLanguagePartial;
+
+
 module.exports = getLanguageText;
