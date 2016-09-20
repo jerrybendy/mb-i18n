@@ -36,7 +36,15 @@ if (! fs.existsSync(outputPath)) {
 }
 
 
+/**
+ * glob 查找符合条件的所有文件
+ */
 var files = globule.find(inputFiles);
+
+/**
+ * 保存所有已经加载的语言内容
+ */
+var langPacks = {};
 
 
 files.forEach(function(fileName) {
@@ -49,10 +57,20 @@ files.forEach(function(fileName) {
 
     var langName = yml.lang;
 
-    try {
+    // 保存语言内容到 langPacks,
+    // 只进行浅拷贝
+    langPacks [langName] = Object.assign({}, (langPacks [langName] || {}), yml);
 
+});
+
+
+// 从 langPacks 中循环， 输出文件
+for (var langName in langPacks) {
+    var content = langPacks [langName];
+
+    try {
         // 构建目标文本
-        var targetContent = "window.langPacks=" + JSON.stringify(yml) + ";";
+        var targetContent = "window.langPacks=" + JSON.stringify(content) + ";";
 
         // 输出文件
         var targetFilePath = outputPath + langName + ".js";
@@ -62,8 +80,7 @@ files.forEach(function(fileName) {
     } catch (e) {
         console.log(e);
     }
-
-});
+}
 
 process.exit(0);
 
