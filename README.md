@@ -27,6 +27,10 @@ mb-i18n src/lang/*.yml -o dist/i18n/
 
 ## HISTORY
 
+### v0.5.0
+
+* 新增多个相同语言的 yml 文件合并到同一个 js 的功能
+
 ### v0.4.0
 
 * 添加 `getLanguagePartial`
