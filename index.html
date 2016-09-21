@@ -1,3 +1,4 @@
+<!--通过 URL 和 LocalStorage 取语言的方式-->
 <script>
 (function(win){
     var searchReg = win.location.search.substr(1).match(/(^|&)lang=([^&]*)(&|$)/i);
@@ -7,4 +8,16 @@
         document.write('<script type="text/javascript" src="./i18n/' + win.lang + '.js"></' + 'script>');
     }
 })(window);
+</script>
+
+<!--通过 URL 和 APP 取语言的方式-->
+<script>
+    (function(w){
+        try{
+            var searchReg = w.location.search.substr(1).match(/(^|&)lang=([^&]*)(&|$)/i);
+            w.lang = (searchReg && searchReg[2]) || JSON.parse(w.prompt('JS_BRIDGE_GET_USER')).lang;
+        } catch(e){}
+        w.lang = w.lang || 'zh';
+        document.write('<script type="text/javascript" src="./i18n/' + lang + '.js"></' + 'script>');
+    })(window);
 </script>
