@@ -32,6 +32,7 @@ mb-i18n src/lang/*.yml -o dist/i18n/
 * `v0.5.0` 新增多个相同语言的 yml 文件合并到同一个 js 的功能
 * `v0.5.1` 修复未加载语言时写入 localStorage 中语言为 undefined 的问题 
 * `v0.5.1` 添加 MB 从 APP 中读取语言的方式
+* `v0.5.2` 写入 localStorage 时加入是否支持的判断
 
 ### v0.4
 

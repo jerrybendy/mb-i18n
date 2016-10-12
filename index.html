@@ -18,6 +18,6 @@
             w.lang = (searchReg && searchReg[2]) || JSON.parse(w.prompt('JS_BRIDGE_GET_USER')).lang;
         } catch(e){}
         w.lang = w.lang || 'zh';
-        document.write('<script type="text/javascript" src="./i18n/' + lang + '.js"></' + 'script>');
+        document.write('<script type="text/javascript" src="./i18n/' + w.lang + '.js"></' + 'script>');
     })(window);
 </script>

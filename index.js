@@ -37,7 +37,7 @@ if (languageContent && languageContent.rtl) {
 }
 
 // 把当前语言选项写入 localStorage
-if (languageContent.lang) {
+if (languageContent.lang && window.localStorage) {
     window.localStorage.setItem("lang", languageContent.lang);
 }
 
