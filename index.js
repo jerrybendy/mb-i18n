@@ -68,7 +68,7 @@ function getLanguageText (textLabel, defaultText, paramsMap) {
     text = languageContent [textLabel] || defaultText;
 
     return text.replace(/{{([^}]+)}}/g, function(subStr, match) {
-        return paramsMap [match] || "";
+        return paramsMap [match] === undefined ? "" : paramsMap [match];
     });
 }
 

@@ -33,6 +33,7 @@ mb-i18n src/lang/*.yml -o dist/i18n/
 * `v0.5.1` 修复未加载语言时写入 localStorage 中语言为 undefined 的问题 
 * `v0.5.1` 添加 MB 从 APP 中读取语言的方式
 * `v0.5.2` 写入 localStorage 时加入是否支持的判断
+* `v0.5.3` 修复替换参数为 0 或 false 时被替换为空的 bug
 
 ### v0.4
 
