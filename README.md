@@ -34,6 +34,7 @@ mb-i18n src/lang/*.yml -o dist/i18n/
 * `v0.5.1` 添加 MB 从 APP 中读取语言的方式
 * `v0.5.2` 写入 localStorage 时加入是否支持的判断
 * `v0.5.3` 修复替换参数为 0 或 false 时被替换为空的 bug
+* `v0.5.4` 不再限制每个 .yml 文件都声明一个 lang 对象, lang 不存在时会使用文件名作为语言名
 
 ### v0.4
 

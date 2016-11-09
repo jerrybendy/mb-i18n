@@ -4,6 +4,7 @@
 'use strict';
 
 var fs    = require('fs');
+var path  = require('path');
 
 
 var argv = process.argv;
@@ -51,8 +52,12 @@ files.forEach(function(fileName) {
 
     var yml = yaml.safeLoad(fs.readFileSync(fileName, 'utf8'));
 
-    if (! yml || ! yml.lang) {
-        throw new Error("Language file " + fileName + " must has `lang` field");
+    if (! yml) {
+        throw new Error("Load yml file error: " + fileName);
+    }
+
+    if (! yml.lang) {
+        yml.lang = path.basename(fileName, path.extname(fileName));
     }
 
     var langName = yml.lang;
