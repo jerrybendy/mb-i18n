@@ -46,7 +46,7 @@ if (languageContent.lang && window.localStorage) {
  * 读取并返回语言文本
  *
  * @param {string} textLabel 语言文本的标识
- * @param {string} defaultText 可选, 默认显示的内容
+ * @param {string|null} defaultText 可选, 默认显示的内容
  * @param {object} paramsMap 参数列表, 对于替换语言中双花括号包围的部分
  * @returns {string}
  */
@@ -54,18 +54,19 @@ function getLanguageText (textLabel, defaultText, paramsMap) {
 
     if (typeof defaultText === "object" && paramsMap == null) {
         paramsMap = defaultText;
-        defaultText = "";
+        defaultText = null;
     }
 
-    defaultText = defaultText || "";
-    paramsMap = paramsMap || {};
+    if (defaultText === null || defaultText === undefined) {
+        defaultText = textLabel;
+    }
 
-    var text;
+    paramsMap = paramsMap || {};
 
     /*
      * 读取语言包对应的值,
      */
-    text = languageContent [textLabel] || defaultText;
+    var text = languageContent [textLabel] || defaultText;
 
     return text.replace(/{{([^}]+)}}/g, function(subStr, match) {
         return paramsMap [match] === undefined ? "" : paramsMap [match];
