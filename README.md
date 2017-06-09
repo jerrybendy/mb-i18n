@@ -19,6 +19,31 @@ for example
 mb-i18n src/lang/*.yml -o dist/i18n/
 ```
 
+VueJS 2 可以使用 `vue-plugin` 入口注册插件
+
+```js
+import mbI18nVuePlugin from 'mb-i18n/vue-plugin'
+
+Vue.use(mbI18nVuePlugin)
+```
+
+使用方法
+
+```vue
+<template>
+    <div>
+        <p>{{ $t('foo') }}</p>
+        <p>{{ 'bar' | translate }}</p>
+    </div>
+</template>
+<script>
+export default {
+    created () {
+        console.log(this.$i18n.getText('baz'))
+    }
+}
+</script>
+```
 
 ## NOTE
 
@@ -26,6 +51,10 @@ mb-i18n src/lang/*.yml -o dist/i18n/
 
 
 ## HISTORY
+
+### v0.6
+
+* `v0.6.0` 添加对 VueJS 2 的支持
 
 ### v0.5
 
