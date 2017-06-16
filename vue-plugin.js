@@ -10,7 +10,7 @@ var VueI18n = {
     install: function (Vue) {
 
         Vue.prototype.$i18n = {
-            getText: function (key, defaultText, paramsMap) {
+            t: function (key, defaultText, paramsMap) {
                 return i18n.t(key, defaultText, paramsMap);
             },
             getLanguagePartial: i18n.getLanguagePartial

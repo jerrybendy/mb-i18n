@@ -10,7 +10,7 @@ npm i mb-i18n
 ## USAGE
 
 ```sh
-mb-i18n [inputFileGlob] -o [outfilePath]
+mb-i18n [inputFileGlob] -o [outfilePath] 
 ```
 
 for example
@@ -18,6 +18,26 @@ for example
 ```sh
 mb-i18n src/lang/*.yml -o dist/i18n/
 ```
+
+combine all language file into a single js file
+
+```sh
+mb-i18n src/lang/*.yml -o dist/i18n/ -c lang.js
+```
+
+加载和初始化
+
+```js
+import i18n from "mb-i18n";
+
+i18n.init({
+    lang: 'zh',
+    fallbackLang: 'en'
+})
+
+console.log(i18n.t("editor.label"));
+```
+
 
 VueJS 2 可以使用 `vue-plugin` 入口注册插件
 
@@ -39,18 +59,20 @@ Vue.use(mbI18nVuePlugin)
 <script>
 export default {
     created () {
-        console.log(this.$i18n.getText('baz'))
+        console.log(this.$i18n.t('baz'))
     }
 }
 </script>
 ```
 
-## NOTE
-
-* 语言包的 yml 文件中需要有 lang 字段, 并且值为输出文件名
-
 
 ## HISTORY
+
+### v0.7
+
+* `v0.7.0` 命令行版本生成内容格式改变，使用语言名标识的对象表示语言，允许同时加载多个语言
+* `v0.7.0` 命令行版本新增 `-c` 参数，支持打包所有语言到一个 `.js` 文件
+* `v0.7.0` API 调整，使用基于注册的语言加载和设置的方式，不再兼容之前的使用方式。添加支持后备语言
 
 ### v0.6
 
