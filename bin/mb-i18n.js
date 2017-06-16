@@ -3,25 +3,24 @@
 
 'use strict';
 
-var fs    = require('fs');
-var path  = require('path');
+var fs = require('fs');
+var path = require('path');
+var yargs = require('yargs')
+    .option('output', {
+        alias: 'o',
+        describe: 'Specified the output file path'
+    })
+    .option('combine', {
+        alias: 'c',
+        describe: 'Combine all language file into a single file, specified the file name'
+    })
+    .demandOption('output')
+    .help('h')
+    .argv;
 
 
-var argv = process.argv;
-
-// 去掉 argv 的前两个值
-argv.shift();
-argv.shift();
-
-
-// 判断倒数第二个参数是否是 -o
-if (argv [argv.length - 2] !== "-o") {
-    console.log("need outfile specified (-o)");
-    process.exit(1);
-}
-
-var outputPath = argv [argv.length - 1];
-var inputFiles = argv.slice(0, argv.length - 2);
+var outputPath = yargs.output;
+var inputFiles = yargs._;
 
 if (outputPath [outputPath.length] !== "/") {
     outputPath += "/";
@@ -32,7 +31,7 @@ var globule = require("globule");
 var yaml = require("js-yaml");
 
 // 判断目标目录, 如果不存在就创建
-if (! fs.existsSync(outputPath)) {
+if (!fs.existsSync(outputPath)) {
     fs.mkdirSync(outputPath);
 }
 
@@ -48,46 +47,68 @@ var files = globule.find(inputFiles);
 var langPacks = {};
 
 
-files.forEach(function(fileName) {
+files.forEach(function (fileName) {
 
     var yml = yaml.safeLoad(fs.readFileSync(fileName, 'utf8'));
 
-    if (! yml) {
+    if (!yml) {
         throw new Error("Load yml file error: " + fileName);
     }
 
-    if (! yml.lang) {
-        yml.lang = path.basename(fileName, path.extname(fileName));
-    }
-
-    var langName = yml.lang;
+    var langName = yml.lang || path.basename(fileName, path.extname(fileName));
 
     // 保存语言内容到 langPacks,
     // 只进行浅拷贝
     langPacks [langName] = Object.assign({}, (langPacks [langName] || {}), yml);
-
 });
 
 
-// 从 langPacks 中循环， 输出文件
-for (var langName in langPacks) {
-    var content = langPacks [langName];
+/*
+ * 判断对文件语言内容的后续处理方式，如果是合并
+ */
+
+var preTemplate = '(function(w){var n="__langPacks";w[n]=w[n]||{};',
+    postTemplate = '})(window);';
+
+
+if (yargs.combine) {
+    var combineFileName = typeof yargs.combine === 'string' ? yargs.combine : 'languages.js';
 
     try {
         // 构建目标文本
-        var targetContent = "window.langPacks=" + JSON.stringify(content) + ";";
+        var _targetContent = preTemplate +
+            'w[n]=' +
+            JSON.stringify(langPacks) +
+            postTemplate;
 
-        // 输出文件
-        var targetFilePath = outputPath + langName + ".js";
-
-        fs.writeFileSync(targetFilePath, targetContent);
+        fs.writeFileSync(outputPath + combineFileName, _targetContent);
 
     } catch (e) {
         console.log(e);
     }
+
+} else {
+
+    // 从 langPacks 中循环， 输出文件
+    for (var langName in langPacks) {
+        var content = langPacks [langName];
+
+        try {
+            // 构建目标文本
+            var targetContent = preTemplate +
+                'w[n]["' + langName + '"]=' +
+                JSON.stringify(content) +
+                postTemplate;
+
+            // 输出文件
+            var targetFilePath = outputPath + langName + ".js";
+
+            fs.writeFileSync(targetFilePath, targetContent);
+
+        } catch (e) {
+            console.log(e);
+        }
+    }
 }
 
 process.exit(0);
-
-
-
