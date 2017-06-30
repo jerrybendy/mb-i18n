@@ -49,17 +49,24 @@ var langPacks = {};
 
 files.forEach(function (fileName) {
 
-    var yml = yaml.safeLoad(fs.readFileSync(fileName, 'utf8'));
+    var yml = yaml.safeLoad(fs.readFileSync(fileName, 'utf8'), null, 'FAILSAFE_SCHEMA');
 
     if (!yml) {
         throw new Error("Load yml file error: " + fileName);
     }
 
-    var langName = yml.lang || path.basename(fileName, path.extname(fileName));
+    // 仅支持包含一个根节点并且根节点名称为语言名的　yml 格式，如果文件中包含
+    // 多个根节点将抛出异常
+    var ymlKeys = Object.keys(yml);
+    if (ymlKeys.length !== 1) {
+        throw new Error('The yml file must have only one root element: ' + fileName);
+    }
+
+    var langName = ymlKeys[0];
 
     // 保存语言内容到 langPacks,
     // 只进行浅拷贝
-    langPacks [langName] = Object.assign({}, (langPacks [langName] || {}), yml);
+    langPacks [langName] = Object.assign({}, (langPacks [langName] || {}), yml [langName]);
 });
 
 

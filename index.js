@@ -116,7 +116,7 @@ module.exports = {
          */
         var text = $languageContent [textLabel] || $fallbackLangContent[textLabel] || defaultText;
 
-        return text.replace(/{{([^}]+)}}/g, function (subStr, match) {
+        return text.replace(/%{([^}]+)}/g, function (subStr, match) {
             return paramsMap [match] === undefined ? "" : paramsMap [match];
         });
     },
