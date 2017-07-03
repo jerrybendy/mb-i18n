@@ -74,7 +74,7 @@ files.forEach(function (fileName) {
  * 判断对文件语言内容的后续处理方式，如果是合并
  */
 
-var preTemplate = '(function(w){var n="__langPacks";w[n]=w[n]||{};',
+var preTemplate = '(function(w){var s=document.getElementsByTagName("script"),r=s[s.length-1].src,p,n="__langPacks",e,l,f;if(p=r.indexOf("?")>0){e=r.substr(p+1);l=e.match(/(^|&)lang=([^&]*)(&|$)/i);f=e.match(/(^|&)fallback=([^&]*)(&|$)/i);w.__langPackSettings={lang:l&&l[2]?l[2]:null,fallback:f&&f[2]?f[2]:null}}',
     postTemplate = '})(window);';
 
 

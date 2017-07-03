@@ -11,19 +11,19 @@ var VueI18n = {
 
         Vue.prototype.$i18n = {
             t: function (key, defaultText, paramsMap) {
-                return i18n.t(key, defaultText, paramsMap);
+                return i18n(key, defaultText, paramsMap);
             },
             getLanguagePartial: i18n.getLanguagePartial
         };
 
         Vue.filter('translate', function (key) {
-            return i18n.t(key);
+            return i18n(key);
         });
 
         Vue.mixin({
             methods: {
                 $t: function (key, defaultText, paramsMap) {
-                    return i18n.t(key, defaultText, paramsMap);
+                    return i18n(key, defaultText, paramsMap);
                 }
             }
         });
