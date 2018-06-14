@@ -39,11 +39,7 @@ function init(options) {
     /** @var {{lang, fallbackLang, langPacks}} settings*/
     var settings = assign(options || {}, window.__langPackSettings || {});
 
-    if (!settings.lang) {
-        console.warn('[mb-i18n] You must set current language with `lang` when `init()`');
-    }
-
-    $currentLang = settings.lang;
+    $currentLang = settings.lang || '';
     if (settings.fallbackLang) $fallbackLang = settings.fallbackLang;
 
     if (window.__langPacks && typeof window.__langPacks === 'object') {
@@ -107,6 +103,11 @@ function t(textLabel, defaultText, paramsMap) {
 function registerLanguagePacks(langPacks) {
     for (var i in langPacks) {
         if (langPacks.hasOwnProperty(i)) {
+            // 当前语言未设置时，使用第一个注册的语言作为主要语言
+            if (!$currentLang) {
+                $currentLang = i;
+            }
+
             $langPacks[i] = langPacks[i];
         }
     }
@@ -194,4 +195,10 @@ t.init = init
 t.t = t
 t.getLanguagePartial = getLanguagePartial
 
-module.exports = t
+if (typeof module !== 'undefined') {
+    module.exports = t
+
+} else {
+    window.MbI18n = t
+}
+
