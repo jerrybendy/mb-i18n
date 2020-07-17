@@ -1,6 +1,6 @@
 {
   "name": "mb-i18n",
-  "version": "0.7.3",
+  "version": "0.7.4",
   "description": "mb i18n compiler",
   "main": "index.js",
   "bin": {

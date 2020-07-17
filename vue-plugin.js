@@ -13,7 +13,8 @@ var VueI18n = {
             t: function (key, defaultText, paramsMap) {
                 return i18n(key, defaultText, paramsMap);
             },
-            getLanguagePartial: i18n.getLanguagePartial
+            getLanguagePartial: i18n.getLanguagePartial,
+            changeLanguage: i18n.changeLanguage
         };
 
         Vue.filter('translate', function (key) {

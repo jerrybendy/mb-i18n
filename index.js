@@ -31,9 +31,9 @@ var $fallbackLangContent = {};  // 后备语言的语言包
 /**
  * 初始化多语言库并设置语言内容
  *
- * @param {string} options.lang 当前语言
- * @param {string} options.fallbackLang 可选。后备语言，当前语言中找不到 key 时使用
- * @param {object} options.langPacks 可选。语言包，为空时会使用 window.__langPacks 下的语言
+ * @param {string} [options.lang] 当前语言
+ * @param {string} [options.fallbackLang] 可选。后备语言，当前语言中找不到 key 时使用
+ * @param {object} [options.langPacks] 可选。语言包，为空时会使用 window.__langPacks 下的语言
  */
 function init(options) {
     /** @var {{lang, fallbackLang, langPacks}} settings*/
@@ -59,13 +59,29 @@ function init(options) {
     }
 }
 
+/**
+ * 修改语言
+ * @param targetLang
+ */
+function changeLanguage(targetLang) {
+    $currentLang = targetLang;
+
+    // 初始化当前语言
+    $languageContent = flattenJson($langPacks[$currentLang] || {});
+
+    // 初始化后备语言
+    if ($fallbackLang !== $currentLang) {
+        $fallbackLangContent = flattenJson($langPacks[$fallbackLang] || {});
+    }
+}
+
 
 /**
  * 读取并返回语言文本
  *
  * @param {string} textLabel 语言文本的标识
- * @param {string|object|null} defaultText 可选, 默认显示的内容
- * @param {object|null} paramsMap 参数列表, 对于替换语言中双花括号包围的部分
+ * @param {string|object|null} [defaultText] 可选, 默认显示的内容
+ * @param {object|null} [paramsMap] 参数列表, 对于替换语言中双花括号包围的部分
  * @returns {string}
  */
 function t(textLabel, defaultText, paramsMap) {
@@ -194,6 +210,7 @@ function assign(obj1, obj2) {
 t.init = init
 t.t = t
 t.getLanguagePartial = getLanguagePartial
+t.changeLanguage = changeLanguage
 
 if (typeof module !== 'undefined') {
     module.exports = t
